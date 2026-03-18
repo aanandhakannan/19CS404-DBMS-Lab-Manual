@@ -37,6 +37,22 @@ END;
 **Expected Output:**  
 Greater number is: 80
 
+### Program
+```
+DECLARE
+  a NUMBER := 10; b NUMBER := 20;
+BEGIN
+  IF a > b THEN DBMS_OUTPUT.PUT_LINE('Greatest: ' || a);
+  ELSE DBMS_OUTPUT.PUT_LINE('Greatest: ' || b);
+  END IF;
+END;
+/
+```
+### OUTPUT
+
+<img width="496" height="228" alt="Screenshot 2026-03-17 131401" src="https://github.com/user-attachments/assets/bee4ef94-096e-47dc-bad3-37dfbc2442e6" />
+
+
 ---
 
 ## 2. Write a PL/SQL program to Calculate Sum of First N Natural Numbers
@@ -49,6 +65,21 @@ Greater number is: 80
 
 **Expected Output:**  
 Sum of first 10 natural numbers is: 55
+
+### PROGRAM 
+```
+DECLARE
+  n NUMBER := 10; i NUMBER := 1; s NUMBER := 0;
+BEGIN
+  WHILE i <= n LOOP s := s + i; i := i + 1; END LOOP;
+  DBMS_OUTPUT.PUT_LINE('Sum of first 10 natural numbers is: ' || s);
+END;
+/
+```
+### OUTPUT 
+
+<img width="433" height="234" alt="Screenshot 2026-03-17 132344" src="https://github.com/user-attachments/assets/f110c35d-2138-41a0-918e-7e11b1cf7b93" />
+
 
 ---
 
@@ -64,6 +95,34 @@ Sum of first 10 natural numbers is: 55
 n = 7  
 Fibonacci sequence: 0, 1, 1, 2, 3, 5, 8
 
+### PROGRAM
+
+```
+DECLARE
+  n NUMBER := 10;
+  a NUMBER := 0;
+  b NUMBER := 1;
+  c NUMBER;
+  i NUMBER := 1;
+BEGIN
+  DBMS_OUTPUT.PUT_LINE(a);
+  DBMS_OUTPUT.PUT_LINE(b);
+
+  WHILE i <= n - 2 LOOP
+    c := a + b;
+    DBMS_OUTPUT.PUT_LINE(c);
+    a := b;
+    b := c;
+    i := i + 1;
+  END LOOP;
+END;
+/
+```
+### OUTPUT 
+
+<img width="410" height="223" alt="Screenshot 2026-03-17 132539" src="https://github.com/user-attachments/assets/7a5e0061-cad5-47f6-8bbb-9921d746aece" />
+
+
 ---
 
 ## 4. Write a PL/SQL Program to display the number in Reverse Order
@@ -77,6 +136,29 @@ Fibonacci sequence: 0, 1, 1, 2, 3, 5, 8
 n = 1535  
 Reversed number is 5351
 
+### PROGRAM
+
+```
+DECLARE
+  n NUMBER := 1535;
+  rev NUMBER := 0;
+  rem NUMBER;
+BEGIN
+  WHILE n > 0 LOOP
+    rem := MOD(n, 10);
+    rev := rev * 10 + rem;
+    n := TRUNC(n / 10);
+  END LOOP;
+
+  DBMS_OUTPUT.PUT_LINE('Reversed number is: ' || rev);
+END;
+/
+```
+### OUTPUT
+
+<img width="348" height="235" alt="Screenshot 2026-03-17 132606" src="https://github.com/user-attachments/assets/1b9a6074-9dbe-4a40-b114-c387ff48ff73" />
+
+
 ---
 
 ## 5. Write a PL/SQL program to find the largest of three numbers
@@ -89,6 +171,28 @@ Reversed number is 5351
 **Expected Output:**  
 a = 10, b = 9, c = 15  
 Largest of three number is 15
+
+### PROGRAM
+```
+DECLARE
+  a NUMBER := 10;
+  b NUMBER := 25;
+  c NUMBER := 15;
+BEGIN
+  IF a > b AND a > c THEN
+    DBMS_OUTPUT.PUT_LINE('Largest number is: ' || a);
+  ELSIF b > a AND b > c THEN
+    DBMS_OUTPUT.PUT_LINE('Largest number is: ' || b);
+  ELSE
+    DBMS_OUTPUT.PUT_LINE('Largest number is: ' || c);
+  END IF;
+END;
+/
+```
+### OUTPUT
+<img width="348" height="235" alt="Screenshot 2026-03-17 132606" src="https://github.com/user-attachments/assets/f7a91431-336b-4cdf-badd-b309e1119e87" />
+
+
 
 ## RESULT
 Thus, the PL/SQL programs using variables, conditionals, and loops were executed successfully.

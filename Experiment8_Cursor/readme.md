@@ -1,4 +1,6 @@
 # Experiment 8: PL/SQL Cursor Programs
+### NAME - AANANDHA KANNAN S
+### REG NO - 212224040003
 
 ## AIM
 To write and execute PL/SQL programs using cursors and exception handling to manage runtime errors effectively and display appropriate messages.
@@ -80,6 +82,51 @@ END;
 The program should display the employee details or an error message.
 
 ---
+### PROGRAM
+```
+CREATE TABLE employees (
+  emp_id NUMBER,
+  emp_name VARCHAR2(50),
+  designation VARCHAR2(50)
+);
+
+INSERT INTO employees VALUES (1, 'Arun', 'Manager');
+INSERT INTO employees VALUES (2, 'Divya', 'Developer');
+INSERT INTO employees VALUES (3, 'Kumar', 'Analyst');
+
+DECLARE
+  CURSOR emp_cursor IS
+    SELECT emp_name, designation FROM employees;
+
+  v_name employees.emp_name%TYPE;
+  v_designation employees.designation%TYPE;
+BEGIN
+  OPEN emp_cursor;
+
+  LOOP
+    FETCH emp_cursor INTO v_name, v_designation;
+    EXIT WHEN emp_cursor%NOTFOUND;
+    DBMS_OUTPUT.PUT_LINE('Name: ' || v_name || ' Designation: ' || v_designation);
+  END LOOP;
+
+  IF emp_cursor%ROWCOUNT = 0 THEN
+    RAISE NO_DATA_FOUND;
+  END IF;
+
+  CLOSE emp_cursor;
+
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+    DBMS_OUTPUT.PUT_LINE('No employee records found.');
+  WHEN OTHERS THEN
+    DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+END;
+/
+```
+
+### OUTPUT
+<img width="509" height="164" alt="image" src="https://github.com/user-attachments/assets/3058697c-7353-4411-8878-5f93c66eccf5" />
+
 
 ### **Question 2: Parameterized Cursor with Exception Handling**
 
@@ -95,9 +142,52 @@ The program should display the employee details or an error message.
 - Use a parameterized cursor to accept a salary range as input and fetch employees within that range.
 - Implement exception handling to catch and display relevant error messages.
 
-**Output:**  
-The program should display the employee details within the specified salary range or an error message if no data is found.
+### PROGRAM
+```
+ALTER TABLE employees ADD salary NUMBER;
 
+UPDATE employees SET salary = 50000 WHERE emp_id = 1;
+UPDATE employees SET salary = 30000 WHERE emp_id = 2;
+UPDATE employees SET salary = 40000 WHERE emp_id = 3;
+
+DECLARE
+  v_min NUMBER := 30000;
+  v_max NUMBER := 50000;
+
+  CURSOR emp_cursor(p_min NUMBER, p_max NUMBER) IS
+    SELECT emp_name, designation, salary
+    FROM employees
+    WHERE salary BETWEEN p_min AND p_max;
+
+  v_name employees.emp_name%TYPE;
+  v_designation employees.designation%TYPE;
+  v_salary employees.salary%TYPE;
+BEGIN
+  OPEN emp_cursor(v_min, v_max);
+
+  LOOP
+    FETCH emp_cursor INTO v_name, v_designation, v_salary;
+    EXIT WHEN emp_cursor%NOTFOUND;
+    DBMS_OUTPUT.PUT_LINE('Name: ' || v_name || ' Designation: ' || v_designation || ' Salary: ' || v_salary);
+  END LOOP;
+
+  IF emp_cursor%ROWCOUNT = 0 THEN
+    RAISE NO_DATA_FOUND;
+  END IF;
+
+  CLOSE emp_cursor;
+
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+    DBMS_OUTPUT.PUT_LINE('No employees found in the given salary range.');
+  WHEN OTHERS THEN
+    DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+END;
+/
+```
+### OUTPUT
+
+<img width="488" height="253" alt="image" src="https://github.com/user-attachments/assets/a21228cf-a7fa-4f97-bef3-2f4886635cda" />
 ---
 
 ### **Question 3: Cursor FOR Loop with Exception Handling**
@@ -114,8 +204,48 @@ The program should display the employee details within the specified salary rang
 - Use a cursor FOR loop to fetch and display employee names along with their department numbers.
 - Implement exception handling to catch the relevant exceptions.
 
-**Output:**  
-The program should display employee names with their department numbers or the appropriate error message if no data is found.
+  ### PROGRAAM
+
+  ALTER TABLE employees ADD dept_no NUMBER;
+
+UPDATE employees SET dept_no = 101 WHERE emp_id = 1;
+UPDATE employees SET dept_no = 102 WHERE emp_id = 2;
+UPDATE employees SET dept_no = 103 WHERE emp_id = 3;
+
+DECLARE
+  v_count NUMBER;
+BEGIN
+  SELECT COUNT(*) INTO v_count FROM employees;
+
+  IF v_count = 0 THEN
+    RAISE NO_DATA_FOUND;
+  END IF;
+
+  FOR emp_rec IN (SELECT emp_name, dept_no FROM employees) LOOP
+    DBMS_OUTPUT.PUT_LINE('Name: ' || emp_rec.emp_name || ' Department No: ' || emp_rec.dept_no);
+  END LOOP;
+
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+    DBMS_OUTPUT.PUT_LINE('No employees found in the database.');
+  WHEN OTHERS THEN
+    DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+END;
+/
+
+
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+    DBMS_OUTPUT.PUT_LINE('No employees found in the database.');
+  WHEN OTHERS THEN
+    DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+END;
+/
+
+### OUTPUT
+
+<img width="575" height="148" alt="image" src="https://github.com/user-attachments/assets/f0fa65b1-7c48-4609-a003-59e6a30ae767" />
+
 
 ---
 
@@ -132,9 +262,46 @@ The program should display employee names with their department numbers or the a
 - Insert sample data into the `employees` table.
 - Declare a cursor using `%ROWTYPE` to fetch complete rows from the `employees` table.
 - Implement exception handling to catch the relevant exceptions and display appropriate messages.
+### PROGRAM
+```
+DECLARE
+  CURSOR emp_cursor IS
+    SELECT emp_id, emp_name, designation, salary
+    FROM employees;
 
-**Output:**  
-The program should display employee records or the appropriate error message if no data is found.
+  emp_rec emp_cursor%ROWTYPE;
+  v_count NUMBER;
+BEGIN
+  SELECT COUNT(*) INTO v_count FROM employees;
+
+  IF v_count = 0 THEN
+    RAISE NO_DATA_FOUND;
+  END IF;
+
+  OPEN emp_cursor;
+  LOOP
+    FETCH emp_cursor INTO emp_rec;
+    EXIT WHEN emp_cursor%NOTFOUND;
+
+    DBMS_OUTPUT.PUT_LINE('ID: ' || emp_rec.emp_id);
+    DBMS_OUTPUT.PUT_LINE('Name: ' || emp_rec.emp_name);
+    DBMS_OUTPUT.PUT_LINE('Designation: ' || emp_rec.designation);
+    DBMS_OUTPUT.PUT_LINE('Salary: ' || emp_rec.salary);
+    DBMS_OUTPUT.PUT_LINE('----------------------');
+  END LOOP;
+  CLOSE emp_cursor;
+
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+    DBMS_OUTPUT.PUT_LINE('No employees found in the database.');
+  WHEN OTHERS THEN
+    DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+END;
+/
+```
+### OUTPUT
+<img width="653" height="245" alt="image" src="https://github.com/user-attachments/assets/8b9283f3-cdde-4633-9e7d-aa62fe12c825" />
+
 
 ---
 
@@ -151,9 +318,48 @@ The program should display employee records or the appropriate error message if 
 - Insert sample data into the `employees` table with different department numbers.
 - Use a cursor with the `FOR UPDATE` clause to lock the rows of employees in a specific department and update their salary.
 - Implement exception handling to handle `NO_DATA_FOUND` or other errors that may occur.
+### PROGRAM
+```
+DECLARE
+  CURSOR emp_cursor IS
+    SELECT emp_id, emp_name, salary
+    FROM employees
+    WHERE dept_no = 101
+    FOR UPDATE;
+
+  v_emp emp_cursor%ROWTYPE;
+  v_count NUMBER := 0;
+BEGIN
+  OPEN emp_cursor;
+  LOOP
+    FETCH emp_cursor INTO v_emp;
+    EXIT WHEN emp_cursor%NOTFOUND;
+
+    UPDATE employees
+    SET salary = salary + 5000
+    WHERE CURRENT OF emp_cursor;
+
+    DBMS_OUTPUT.PUT_LINE('Updated Salary for: ' || v_emp.emp_name);
+    v_count := v_count + 1;
+  END LOOP;
+  CLOSE emp_cursor;
+
+  IF v_count = 0 THEN
+    RAISE NO_DATA_FOUND;
+  END IF;
+
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+    DBMS_OUTPUT.PUT_LINE('No employees found in the given department.');
+  WHEN OTHERS THEN
+    DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+END;
+/
+```
 
 **Output:**  
-The program should update employee salaries and display a message, or it should display an error message if no data is found.
+<img width="607" height="238" alt="image" src="https://github.com/user-attachments/assets/db81523e-5656-40a0-b560-5dc54b57acb8" />
+
 
 ---
 

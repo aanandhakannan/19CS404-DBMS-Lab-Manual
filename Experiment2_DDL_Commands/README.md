@@ -108,7 +108,8 @@ CREATE TABLE Table_Name (
 -- Paste Question 1 here
 
 ```sql
--- Paste your SQL code below for Question 1
+<img width="200" height="200" alt="cc 6" src="https://github.com/user-attachments/assets/1ad4a5bf-2ba2-4eb3-9692-75de0c35b5a4" />
+
 ```
 
 **Output:**

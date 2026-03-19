@@ -1,4 +1,6 @@
 # Experiment 2: DDL Commands
+### NAME - AANANDHA KANNAN S
+### REG NO - 212224040003
 
 ## AIM
 To study and implement DDL commands and different types of constraints.
@@ -105,124 +107,182 @@ CREATE TABLE Table_Name (
 
 **Question 1**
 --
--- Paste Question 1 here
+Create a table named Employees with the following constraints:
+
+
 
 ```sql
-<img width="200" height="200" alt="cc 6" src="https://github.com/user-attachments/assets/1ad4a5bf-2ba2-4eb3-9692-75de0c35b5a4" />
+CREATE TABLE Employees(
+EmployeeID INTEGER PRIMARY KEY,
+FirstName TEXT NOT NULL,
+LastName TEXT NOT NULL,
+Email TEXT UNIQUE,
+Salary INTEGER CHECK(Salary > 0),
+DepartmentID INTEGER REFERENCES Departments(DepartmentID)
+);
 
 ```
 
 **Output:**
 
-![Output1](output.png)
+<img width="1252" height="338" alt="image" src="https://github.com/user-attachments/assets/b9299491-705a-4ebb-9646-d51746b0464e" />
+
 
 **Question 2**
 ---
--- Paste Question 2 here
+Insert the below data into the Student_details table, allowing the Subject and MARKS columns to take their default values.
+
+
 
 ```sql
--- Paste your SQL code below for Question 2
+INSERT INTO Student_details(RollNo,Name,Gender) VALUES(204,"Samuel Black","M");
 ```
 
 **Output:**
 
-![Output2](output.png)
+<img width="941" height="244" alt="image" src="https://github.com/user-attachments/assets/2979322b-ee8f-4822-be2f-e1614bbd7f9d" />
+
 
 **Question 3**
 ---
--- Paste Question 3 here
+Create a table named Orders with the following constraints:
+
 
 ```sql
--- Paste your SQL code below for Question 3
+CREATE TABLE Orders(
+OrderID INTEGER PRIMARY KEY,
+OrderDate DATE NOT NULL,
+CustomerID INTEGER REFERENCES Customers(CustomerID)
+);
 ```
 
 **Output:**
 
-![Output3](output.png)
+<img width="1330" height="250" alt="image" src="https://github.com/user-attachments/assets/760a85d6-07e8-4e9a-a3cf-52a7e9197c37" />
+
 
 **Question 4**
 ---
--- Paste Question 4 here
+Create a table named Bonuses with the following constraints:
+BonusID as INTEGER should be the primary key.
+EmployeeID as INTEGER should be a foreign key referencing Employees(EmployeeID).
+BonusAmount as REAL should be greater than 0.
+BonusDate as DATE.
+Reason as TEXT should not be NULL.
 
 ```sql
--- Paste your SQL code below for Question 4
+CREATE TABLE Bonuses(
+BonusID INTEGER PRIMARY KEY,
+EmployeeID INTEGER REFERENCES Employees(EmployeeID),
+BonusAmount REAL check(BonusAmount > 0),
+BonusDate DATE,
+Reason TEXT NOT NULL
+);
 ```
 
 **Output:**
 
-![Output4](output.png)
+<img width="1340" height="210" alt="image" src="https://github.com/user-attachments/assets/2b95781b-893f-4b6e-b2ef-432244c6156d" />
+
 
 **Question 5**
 ---
--- Paste Question 5 here
+Insert a record with EmployeeID 001, Name Sarah Parker, Position Manager, Department HR, and Salary 60000 into the Employee table.
 
 ```sql
--- Paste your SQL code below for Question 5
+INSERT INTO Employee VALUES(001,"Sarah Parker","Manager","HR",60000);
 ```
 
 **Output:**
 
-![Output5](output.png)
+<img width="1301" height="238" alt="image" src="https://github.com/user-attachments/assets/d7887be2-fa43-4969-9397-3da993191670" />
+
 
 **Question 6**
 ---
--- Paste Question 6 here
+Create a table named Attendance with the following constraints:
+AttendanceID as INTEGER should be the primary key.
+EmployeeID as INTEGER should be a foreign key referencing Employees(EmployeeID).
+AttendanceDate as DATE.
+Status as TEXT should be one of 'Present', 'Absent', 'Leave'.
 
 ```sql
--- Paste your SQL code below for Question 6
+CREATE TABLE Attendance(
+AttendanceID INTEGER PRIMARY KEY,
+EmployeeID INTEGER REFERENCES Employees(EmployeeID),
+AttendanceDate DATE,
+Status TEXT check(Status IN("Present","Absent","Leave"))
+);
 ```
 
 **Output:**
 
-![Output6](output.png)
+<img width="1249" height="230" alt="image" src="https://github.com/user-attachments/assets/a6db8d90-d8b0-479f-abb1-7bfd62a164c1" />
+
 
 **Question 7**
 ---
--- Paste Question 7 here
+In the Products table, insert a record where some fields are NULL, another record where all fields are filled without any NULL values, and a third record where some fields are filled, and others are left as NULL.
 
 ```sql
--- Paste your SQL code below for Question 7
+INSERT INTO Products(ProductID,Name,Category) VALUES(106,"Fitness Tracker","Wearables");
+INSERT INTO Products(ProductID,Name,Category,Price,Stock) VALUES(107,"Laptop","Electronics",999.99,50);
+INSERT INTO Products(ProductID,Name,Category,Stock) VALUES(108,"Wireless Earbud","Accessorie",100);
 ```
 
 **Output:**
 
-![Output7](output.png)
+<img width="1232" height="198" alt="image" src="https://github.com/user-attachments/assets/a074d952-727e-4aad-8fdd-744727e89a22" />
+
 
 **Question 8**
 ---
--- Paste Question 8 here
+Write a SQL query to Add a new column mobilenumber as number in the Student_details table.
 
 ```sql
--- Paste your SQL code below for Question 8
+ALTER TABLE Student_details ADD COLUMN mobilenumb number;
 ```
 
 **Output:**
 
-![Output8](output.png)
+<img width="1327" height="303" alt="image" src="https://github.com/user-attachments/assets/4b80996f-ac86-4397-8b39-10098f32e9b9" />
+
 
 **Question 9**
 ---
--- Paste Question 9 here
+Insert the below data into the Books table, allowing the Publisher and Year columns to take their default values.
 
 ```sql
--- Paste your SQL code below for Question 9
+INSERT INTO Books(ISBN,Title,Author) VALUES
+("978-6655443321","Big Data Analytics","Karen Adams");
 ```
 
 **Output:**
 
-![Output9](output.png)
+<img width="1188" height="239" alt="image" src="https://github.com/user-attachments/assets/1b2818e4-8202-4b1d-aa99-25380d76440a" />
+
 
 **Question 10**
 ---
--- Paste Question 10 here
+Create a table named Events with the following columns:
+
+EventID as INTEGER
+EventName as TEXT
+EventDate as DATE
+
 
 ```sql
--- Paste your SQL code below for Question 10
+CREATE TABLE Events(
+EventID INTEGER,
+EventName TEXT,
+EventDate DATE
+);
 ```
 
 **Output:**
 
-![Output10](output.png)
+<img width="1309" height="323" alt="image" src="https://github.com/user-attachments/assets/9f867088-f07f-41ed-a897-d397ae7eb993" />
+
 
 
 ## RESULT
